@@ -189,9 +189,9 @@
 
             <!-- Imagen 1 -->
             <label><input type="checkbox" checked id="mostrarimg1"> Mostrar imagen 1</label>
-            <br/>
+            <br />
             <label>Tamaño: <input style="width: 50%;" type="number" id="tamanoimg1" value="127" min="10"></label>
-            <br/>
+            <br />
             <label>Ubicación:
                 <select style="width: 50%;" id="posicionimg1">
                     <option value="izquierda-arriba">Izquierda - Arriba</option>
@@ -209,9 +209,9 @@
 
             <!-- Imagen 2 -->
             <label><input type="checkbox" id="mostrarimg2"> Mostrar imagen 2</label>
-            <br/>
+            <br />
             <label>Tamaño: <input style="width: 50%;" type="number" id="tamanoimg2" value="100" min="10"></label>
-            <br/>
+            <br />
             <label>Ubicación:
                 <select style="width: 50%;" id="posicionimg2">
                     <option value="izquierda-arriba">Izquierda - Arriba</option>
@@ -229,9 +229,9 @@
 
             <!-- Imagen 3 -->
             <label><input type="checkbox" id="mostrarimg3"> Mostrar imagen 3</label>
-            <br/>
+            <br />
             <label>Tamaño: <input style="width: 50%;" type="number" id="tamanoimg3" value="100" min="10"></label>
-            <br/>
+            <br />
             <label>Ubicación:
                 <select style="width: 50%;" id="posicionimg3">
                     <option value="izquierda-arriba">Izquierda - Arriba</option>
@@ -423,11 +423,16 @@
         }
 
         function descargarImagen() {
-            const preview = document.getElementById("preview");
-            html2canvas(preview).then(canvas => {
+            const vista = document.getElementById("preview");
+            html2canvas(vista, {
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null,
+                scale: 2
+            }).then(canvas => {
                 const link = document.createElement("a");
-                link.download = "cumpleaneros-ucc.png";
-                link.href = canvas.toDataURL();
+                link.download = `cumple_ucc_${Date.now()}.png`;
+                link.href = canvas.toDataURL("image/png");
                 link.click();
             });
         }
