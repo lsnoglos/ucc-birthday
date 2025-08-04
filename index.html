@@ -422,20 +422,20 @@
             }
         }
 
-        function descargarImagen() {
-            const vista = document.getElementById("preview");
-            html2canvas(vista, {
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: null,
-                scale: 2
-            }).then(canvas => {
-                const link = document.createElement("a");
-                link.download = `cumple_ucc_${Date.now()}.png`;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-            });
-        }
+function descargarImagen() {
+    const vista = document.getElementById("preview");
+    html2canvas(vista, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+        scale: 2
+    }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = `cumple_ucc_${Date.now()}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    });
+}
 
         ["tituloTexto", "subtituloTexto", "colorTitulo", "colorSubtitulo", "tamanoTitulo", "tamanoSubtitulo", "logoSize", "tamanoFondo", "transparenciaCuadro", "transparenciaMarco"].forEach(id => {
             document.getElementById(id).addEventListener("input", () => {
