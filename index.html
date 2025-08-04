@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festejo Cumpleañeros UCC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #fdd835, #f06292);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .formulario {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        fieldset {
+            border: 2px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        legend {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 2px;
+        }
+
+        .vista-previa {
+            position: relative;
+            margin: 0 auto;
+            width: 600px;
+            min-height: 600px;
+            background-color: transparent;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: visible;
+        }
+
+        .fondo-marco {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 0;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .encabezado,
+        .contenido-vista,
+        #fraseEditable {
+            position: relative;
+            z-index: 1;
+        }
+
+        .encabezado {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .encabezado img {
+            max-width: 100%;
+        }
+
+        .titulos div {
+            margin: 2px 0;
+        }
+
+        .contenido-vista {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex: 1;
+            overflow: visible;
+        }
+
+        #nombresVista {
+            overflow-y: auto;
+            padding: 10px;
+            line-height: 1.8em;
+            text-align: left;
+            border-radius: 10px;
+            max-height: none;
+            word-break: break-word;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #fraseEditable {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #4e342e;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎉 Cumpleañeros del Mes - UCC 🎉</h1>
+    <div class="formulario">
+        <fieldset>
+            <legend>🎤 Nombres</legend>
+
+            <input type="text" id="inputNombre" style="width: 80%;" placeholder="Escribe un nombre...">
+            <button style="width: 15%;" onclick="agregarNombre()">Añadir</button>
+
+            <input style="width: 20%;" type="number" id="anchoRect" placeholder="Ancho px" value="600">
+            <input style="width: 20%;" type="number" id="tamanoLetra" placeholder="Tamaño px" value="30">
+            <input type="color" id="colorNombres" value="#112725">
+            <label><input type="checkbox" id="negritaNombres" checked> Negrita</label>
+            <select style="width: 20%;" id="alineacionTexto">
+                <option value="left">Izquierda</option>
+                <option value="center" selected>Centrado</option>
+                <option value="justify">Justificado</option>
+            </select>
+            <br />
+            <label><input type="checkbox" id="fondoNombres"> Fondo con degradado</label><br />
+            <label><input type="checkbox" id="bordeTexto" checked> Borde a letras</label>
+            <input type="color" id="colorBordeTexto" value="#70C1FF">
+            <input style="width: 20%;" type="number" id="grosorBordeTexto" value="1" min="0" max="10">
+            <br />
+            <label>Espaciado entre líneas: <input style="width: 20%;" type="number" id="espaciadoLineas" value="0.5"
+                    min="0" step="0.1"></label>
+            <br /><br />
+            <button onclick="confirmarEliminarTodos()">Eliminar Nombres</button>
+        </fieldset>
+        <fieldset>
+            <legend>🖋️ Encabezado</legend>
+            <input style="width: 65%;" type="text" id="tituloTexto" placeholder="Título" value="Celebración UCC">
+            <input style="width: 15%;" type="number" id="tamanoTitulo" placeholder="Tamaño título" value="60">
+            <input style="width: 15%;" type="color" id="colorTitulo" value="#da1315">
+
+            <input style="width: 65%;" type="text" id="subtituloTexto" placeholder="Subtítulo"
+                value="Cumpleañeros del mes">
+            <input style="width: 15%;" type="number" id="tamanoSubtitulo" placeholder="Tamaño subtítulo" value="44">
+            <input style="width: 15%;" type="color" id="colorSubtitulo" value="#257732">
+            <br /><br />
+            <label>Tamaño logo:<input style="width: 20%;" type="number" id="logoSize" placeholder="Tamaño logo px"
+                    value="100"></label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Imágenes Extra</legend>
+
+            <!-- Imagen 1 -->
+            <label><input type="checkbox" checked id="mostrarimg1"> Mostrar imagen 1</label>
+            <br/>
+            <label>Tamaño: <input style="width: 50%;" type="number" id="tamanoimg1" value="127" min="10"></label>
+            <br/>
+            <label>Ubicación:
+                <select style="width: 50%;" id="posicionimg1">
+                    <option value="izquierda-arriba">Izquierda - Arriba</option>
+                    <option value="izquierda-centro">Izquierda - Centro</option>
+                    <option value="izquierda-abajo">Izquierda - Abajo</option>
+                    <option value="centro-arriba">Centro - Arriba</option>
+                    <option value="centro-centro">Centro - Centro</option>
+                    <option value="centro-abajo">Centro - Abajo</option>
+                    <option value="derecha-arriba">Derecha - Arriba</option>
+                    <option value="derecha-centro">Derecha - Centro</option>
+                    <option value="derecha-abajo" selected>Derecha - Abajo</option>
+                </select>
+            </label>
+            <hr>
+
+            <!-- Imagen 2 -->
+            <label><input type="checkbox" id="mostrarimg2"> Mostrar imagen 2</label>
+            <br/>
+            <label>Tamaño: <input style="width: 50%;" type="number" id="tamanoimg2" value="100" min="10"></label>
+            <br/>
+            <label>Ubicación:
+                <select style="width: 50%;" id="posicionimg2">
+                    <option value="izquierda-arriba">Izquierda - Arriba</option>
+                    <option value="izquierda-centro">Izquierda - Centro</option>
+                    <option value="izquierda-abajo">Izquierda - Abajo</option>
+                    <option value="centro-arriba">Centro - Arriba</option>
+                    <option value="centro-centro">Centro - Centro</option>
+                    <option value="centro-abajo">Centro - Abajo</option>
+                    <option value="derecha-arriba">Derecha - Arriba</option>
+                    <option value="derecha-centro">Derecha - Centro</option>
+                    <option value="derecha-abajo">Derecha - Abajo</option>
+                </select>
+            </label>
+            <hr>
+
+            <!-- Imagen 3 -->
+            <label><input type="checkbox" id="mostrarimg3"> Mostrar imagen 3</label>
+            <br/>
+            <label>Tamaño: <input style="width: 50%;" type="number" id="tamanoimg3" value="100" min="10"></label>
+            <br/>
+            <label>Ubicación:
+                <select style="width: 50%;" id="posicionimg3">
+                    <option value="izquierda-arriba">Izquierda - Arriba</option>
+                    <option value="izquierda-centro">Izquierda - Centro</option>
+                    <option value="izquierda-abajo">Izquierda - Abajo</option>
+                    <option value="centro-arriba">Centro - Arriba</option>
+                    <option value="centro-centro">Centro - Centro</option>
+                    <option value="centro-abajo">Centro - Abajo</option>
+                    <option value="derecha-arriba">Derecha - Arriba</option>
+                    <option value="derecha-centro">Derecha - Centro</option>
+                    <option value="derecha-abajo">Derecha - Abajo</option>
+                </select>
+            </label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Imagen de Fondo</legend>
+            <label>Selecciona imagen: <br />
+                <button onclick="cambiarFondo(-1)">⬅️</button>
+                <button onclick="cambiarFondo(1)">➡️</button>
+            </label>
+            <label>Tamaño: <input style="width: 15%;" type="number" id="tamanoFondo" min="10" max="200"
+                    value="70"></label>
+            <label>Transp imagen: <input style="width: 15%;" type="range" id="transparenciaMarco" min="0" max="100"
+                    value="60"></label>
+            <br /><br />
+            <label>Transp fondo: <input style="width: 15%;" type="range" id="transparenciaCuadro" min="0" max="100"
+                    value="40"></label>
+            <br /><br />
+            <button onclick="descargarImagen()">Guardar Imagen</button>
+        </fieldset>
+    </div>
+    <div class="vista-previa" id="preview">
+        <div class="fondo-marco" id="fondoMarco"></div>
+        <div class="encabezado">
+            <img id="logoUCC"
+                src="https://logosnicas.com/wp-content/uploads/2022/08/universidad_de_ciencias_comerciales_ucc.png">
+            <div class="titulos">
+                <div id="tituloVista" style="font-weight:bold">Celebración UCC</div>
+                <div id="subtituloVista" style="font-weight:bold">Cumpleañeros del mes</div>
+            </div>
+        </div>
+        <div class="contenido-vista">
+            <div id="nombresVista"></div>
+        </div>
+        <div id="fraseEditable" contenteditable="true">¡Feliz cumpleaños! Que tengas un día increíble 🎂🎈. <br /><br />
+            <div>Te desea RRHH</div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        let nombres = JSON.parse(localStorage.getItem("cumple_nombres") || "[]");
+        let idxImagen = 7;
+        const imagenes = ["assets/m0.png", "assets/m1.png", "assets/m2.png", "assets/m3.png", "assets/m4.png", "assets/m5.png", "assets/m6.png", "assets/m7.png", "assets/m8.png", "assets/m9.png", "assets/m10.png", "assets/m11.png", "assets/m12.png", "assets/m13.png"];
+        const extras = ["img1", "img2", "img3"];
+
+        function renderImagenesExtras() {
+            extras.forEach(id => {
+                const img = document.getElementById(id + "Img");
+                const check = document.getElementById("mostrar" + id);
+                const size = document.getElementById("tamano" + id).value;
+                const pos = document.getElementById("posicion" + id).value;
+
+                if (check && check.checked) {
+                    img.style.display = "block";
+                    img.style.width = size + "px";
+
+                    const [horizontal, vertical] = pos.split("-");
+                    img.style.left = horizontal === "izquierda" ? "0" : horizontal === "centro" ? "50%" : "auto";
+                    img.style.right = horizontal === "derecha" ? "0" : "auto";
+                    img.style.top = vertical === "arriba" ? "0" : vertical === "centro" ? "50%" : "auto";
+                    img.style.bottom = vertical === "abajo" ? "0" : "auto";
+                    img.style.transform = (horizontal === "centro" ? "translateX(-50%) " : "") + (vertical === "centro" ? "translateY(-50%)" : "");
+                } else {
+                    img.style.display = "none";
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            extras.forEach(id => {
+                const img = document.createElement("img");
+                img.src = `assets/${id}.png`;
+                img.id = id + "Img";
+                img.className = "img-extra";
+                img.style.position = "absolute";
+                img.style.display = "none";
+                document.querySelector(".vista-previa").appendChild(img);
+
+                ["mostrar" + id, "tamano" + id, "posicion" + id].forEach(elId => {
+                    const el = document.getElementById(elId);
+                    if (el) el.addEventListener("input", renderImagenesExtras);
+                });
+            });
+
+            renderImagenesExtras();
+        });
+
+        function renderNombres() {
+            const vista = document.getElementById("nombresVista");
+            const ancho = document.getElementById("anchoRect").value;
+            const fontSize = document.getElementById("tamanoLetra").value;
+            const align = document.getElementById("alineacionTexto").value;
+            const fondoActivo = document.getElementById("fondoNombres").checked;
+            const color = document.getElementById("colorNombres").value;
+            const negrita = document.getElementById("negritaNombres").checked;
+            const bordeActivo = document.getElementById("bordeTexto").checked;
+            const colorBorde = document.getElementById("colorBordeTexto").value;
+            const grosorBorde = document.getElementById("grosorBordeTexto").value + "px";
+            const espaciadoLineas = parseFloat(document.getElementById("espaciadoLineas").value || 1.8);
+
+            vista.innerHTML = "";
+            vista.style.width = ancho + "px";
+            vista.style.fontSize = fontSize + "px";
+            vista.style.textAlign = align;
+            vista.style.fontWeight = negrita ? "bold" : "normal";
+            vista.style.color = color;
+            vista.style.background = fondoActivo ? "linear-gradient(to bottom right, #fff, #dce775)" : "transparent";
+            vista.style.lineHeight = espaciadoLineas;
+
+            const spacing = parseInt(fontSize) * 1.8;
+            const totalHeight = nombres.length * spacing;
+            vista.style.minHeight = totalHeight + 40 + "px";
+            vista.style.justifyContent = nombres.length === 1 ? "center" : "space-between";
+
+            nombres.forEach(nombre => {
+                const p = document.createElement("p");
+                p.textContent = nombre;
+                if (bordeActivo) {
+                    p.style.webkitTextStroke = `${grosorBorde} ${colorBorde}`;
+                } else {
+                    p.style.webkitTextStroke = "none";
+                }
+                vista.appendChild(p);
+            });
+
+            localStorage.setItem("cumple_nombres", JSON.stringify(nombres));
+        }
+
+        ["anchoRect", "tamanoLetra", "colorNombres", "negritaNombres", "alineacionTexto", "fondoNombres", "bordeTexto", "colorBordeTexto", "grosorBordeTexto", "espaciadoLineas"].forEach(id => {
+            document.getElementById(id).addEventListener("input", renderNombres);
+        });
+
+        function renderEncabezado() {
+            document.getElementById("tituloVista").textContent = document.getElementById("tituloTexto").value;
+            document.getElementById("tituloVista").style.color = document.getElementById("colorTitulo").value;
+            document.getElementById("tituloVista").style.fontSize = document.getElementById("tamanoTitulo").value + "px";
+
+            document.getElementById("subtituloVista").textContent = document.getElementById("subtituloTexto").value;
+            document.getElementById("subtituloVista").style.color = document.getElementById("colorSubtitulo").value;
+            document.getElementById("subtituloVista").style.fontSize = document.getElementById("tamanoSubtitulo").value + "px";
+
+            document.getElementById("logoUCC").style.height = document.getElementById("logoSize").value + "px";
+        }
+
+        function actualizarFondo() {
+            const transparenciaCuadro = document.getElementById("transparenciaCuadro").value;
+            document.getElementById("preview").style.backgroundColor = `rgba(255,255,255,${(100 - transparenciaCuadro) / 100})`;
+
+            const marco = document.getElementById("fondoMarco");
+            const marcoTransparencia = document.getElementById("transparenciaMarco").value;
+            const tamano = document.getElementById("tamanoFondo").value;
+
+            marco.style.backgroundImage = `url(${imagenes[idxImagen]})`;
+            marco.style.opacity = (100 - marcoTransparencia) / 100;
+            marco.style.backgroundSize = tamano + "%";
+        }
+
+        function cambiarFondo(dir) {
+            idxImagen = (idxImagen + dir + imagenes.length) % imagenes.length;
+            actualizarFondo();
+        }
+
+        function agregarNombre() {
+            const input = document.getElementById("inputNombre");
+            const valor = input.value.trim();
+            if (valor) {
+                nombres.push(valor);
+                input.value = "";
+                renderNombres();
+            }
+        }
+
+        function confirmarEliminarTodos() {
+            if (confirm("¿Estás seguro de que deseas eliminar todos los nombres?")) {
+                nombres = [];
+                renderNombres();
+            }
+        }
+
+        function descargarImagen() {
+            const preview = document.getElementById("preview");
+            html2canvas(preview).then(canvas => {
+                const link = document.createElement("a");
+                link.download = "cumpleaneros-ucc.png";
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        ["tituloTexto", "subtituloTexto", "colorTitulo", "colorSubtitulo", "tamanoTitulo", "tamanoSubtitulo", "logoSize", "tamanoFondo", "transparenciaCuadro", "transparenciaMarco"].forEach(id => {
+            document.getElementById(id).addEventListener("input", () => {
+                renderEncabezado();
+                actualizarFondo();
+            });
+        });
+
+        renderNombres();
+        renderEncabezado();
+        actualizarFondo();
+    </script>
+</body>
+
+</html>
